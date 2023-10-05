@@ -7,6 +7,7 @@ public class Email {
   private String lastName;
   private String password;
   private String department;
+  private int departmentCode;
   private String email;
   private int defaultPasswordLength = 10;
   private int mailBoxCapacity = 500;
@@ -16,19 +17,23 @@ public class Email {
   public Email(String firstName, String lastName) {
     this.firstName = firstName;
     this.lastName = lastName;
-    System.out.println("Email created: " + firstName + " " + lastName);
     this.department = setDepartment();
-    System.out.println(department);
     this.password = randomPassword(defaultPasswordLength);
-    System.out.println("Your password is: " + this.password);
-    email = firstName.toLowerCase() + lastName.toLowerCase() + "@" + department + companySuffix;
-    System.out.println("Your email is: " + email);
+
+    if(this.departmentCode > 3 || this.departmentCode < 1) {
+      System.out.println("Valid Code not entered");
+    } else {
+      email = firstName.toLowerCase() + lastName.toLowerCase() + "@" + department + companySuffix;
+      System.out.println("Your email is: " + email);
+      System.out.println("Your password is: " + this.password);
+    }
   }
 
   public String setDepartment() {
-    System.out.println("Department Codes:\n1 for Sales \n2 for Development \n3 for Accounting \n0 for none\nEnter Department code:");
+    System.out.println("Department Codes:\n1 for Sales \n2 for Development \n3 for Accounting\nEnter Department code:");
     Scanner in = new Scanner(System.in);
     int depChoice = Integer.valueOf(in.nextLine());
+    this.departmentCode = depChoice;
     in.close();
 
     if(depChoice == 1) {
@@ -38,7 +43,7 @@ public class Email {
     } else if(depChoice == 3) {
       return "Accounting";
     } else {
-      return + depChoice + " is not a valid code.";
+      return "That is not a valid code.";
     }
   }
 
@@ -90,5 +95,11 @@ public class Email {
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
+  }
+
+  public String showInfo() {
+    return "Display Name: " + this.firstName + " " + this.lastName +
+     "\nCompany Email: " + this.email + 
+     "\nMailbox Capacity: " + mailBoxCapacity + "mb";
   }
 }
